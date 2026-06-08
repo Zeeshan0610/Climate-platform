@@ -148,7 +148,7 @@ def _score(df: pd.DataFrame, report: QualityReport) -> None:
 
     # Completeness: non-missing fraction after cleaning
     non_missing = sum(int(df[c].notna().sum()) for c in NUMERIC_COLS if c in df.columns)
-    report.completeness_score = round(non_missing / max(total_cells, 1) * 100, 2)
+    report.completeness_score = float(round(non_missing / max(total_cells, 1) * 100, 2))
 
     # Validity: fraction within valid ranges
     valid_cells, checked = 0, 0
@@ -157,31 +157,33 @@ def _score(df: pd.DataFrame, report: QualityReport) -> None:
             s = df[col].dropna()
             checked += len(s)
             valid_cells += int(s.between(lo, hi).sum())
-    report.validity_score = round((valid_cells / checked * 100) if checked else 100.0, 2)
+    report.validity_score = float(round((valid_cells / checked * 100) if checked else 100.0, 2))
 
     # Consistency: penalize duplicates relative to input
     dedup_ratio = 1 - (report.duplicates_removed / max(report.rows_in, 1))
-    report.consistency_score = round(dedup_ratio * 100, 2)
+    report.consistency_score = float(round(dedup_ratio * 100, 2))
 
     # Accuracy: penalize outliers + invalid removals
     bad = report.outliers_detected + report.invalid_removed
-    report.accuracy_score = round(max(0.0, 1 - bad / max(report.rows_in, 1)) * 100, 2)
+    report.accuracy_score = float(round(max(0.0, 1 - bad / max(report.rows_in, 1)) * 100, 2))
 
     # Timeliness: fraction of records with a valid recent date
     if "date" in df.columns and len(df):
-        report.timeliness_score = round(df["date"].notna().mean() * 100, 2)
+        report.timeliness_score = float(round(df["date"].notna().mean() * 100, 2))
     else:
         report.timeliness_score = 100.0
 
-    report.overall_score = round(
-        np.mean(
-            [
-                report.completeness_score,
-                report.consistency_score,
-                report.validity_score,
-                report.accuracy_score,
-                report.timeliness_score,
-            ]
-        ),
-        2,
+    report.overall_score = float(
+        round(
+            np.mean(
+                [
+                    report.completeness_score,
+                    report.consistency_score,
+                    report.validity_score,
+                    report.accuracy_score,
+                    report.timeliness_score,
+                ]
+            ),
+            2,
+        )
     )
