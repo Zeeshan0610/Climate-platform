@@ -1,0 +1,18 @@
+[project]
+name = "climate-platform-backend"
+version = "1.0.0"
+description = "Accessible Climate Data Integration Platform - Backend (FastAPI + ETL + ML)"
+requires-python = ">=3.10"
+readme = "../README.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
