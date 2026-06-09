@@ -121,6 +121,10 @@ npm run lint
    ```
 4. Open http://localhost:5173 and sign in with `admin` / `admin123`.
 
+**After the one-time setup, start everything with one click:** double-click
+`start.bat` (or run `.\start.ps1`) in the project root — it launches the backend
+and frontend in two windows automatically.
+
 **Run everything with Docker instead** (needs Docker Desktop): open the folder in
 VS Code and run `docker compose up --build`, then open http://localhost:3000.
 
