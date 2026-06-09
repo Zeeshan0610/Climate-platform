@@ -100,6 +100,63 @@ npm run lint
 
 ---
 
+## Running in VS Code
+
+1. **Open the project:** `File ▸ Open Folder…` → select the `climate-platform`
+   folder. (Recommended extensions: *Python*, *Pylance*, *ESLint*, *Docker*.)
+2. **Backend terminal** (Terminal ▸ New Terminal):
+   ```bash
+   cd backend
+   python3 -m venv .venv
+   source .venv/bin/activate          # Windows: .venv\Scripts\activate
+   pip install -r requirements.txt
+   uvicorn app.main:app --reload      # http://localhost:8000  (docs: /docs)
+   ```
+   On first run it auto-creates the SQLite DB, seeds demo users, and loads ETL data.
+3. **Frontend terminal** (split terminal, `+` icon):
+   ```bash
+   cd frontend
+   npm install
+   npm run dev                        # http://localhost:5173
+   ```
+4. Open http://localhost:5173 and sign in with `admin` / `admin123`.
+
+**Run everything with Docker instead** (needs Docker Desktop): open the folder in
+VS Code and run `docker compose up --build`, then open http://localhost:3000.
+
+> Tip: press **F5** with the Python extension to debug the backend (select the
+> `uvicorn` / FastAPI module), or set breakpoints and use *Run and Debug*.
+
+---
+
+## Running from GitHub
+
+```bash
+git clone https://github.com/<your-username>/climate-platform.git
+cd climate-platform
+```
+
+Then either:
+
+- **Docker (one command):**
+  ```bash
+  cp .env.example .env
+  docker compose up --build
+  # frontend http://localhost:3000 · API http://localhost:8000/docs
+  ```
+- **Manual:** follow the *Running in VS Code* steps above (backend venv +
+  `uvicorn`, frontend `npm run dev`).
+
+To push this project to a new GitHub repo for the first time:
+```bash
+# create an EMPTY repo at https://github.com/new (no README/.gitignore/license)
+git remote add origin https://github.com/<your-username>/climate-platform.git
+git branch -M main
+git push -u origin main
+```
+
+---
+
 ## API Overview
 
 | Method | Endpoint | Role | Description |
